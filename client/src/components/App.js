@@ -51,9 +51,7 @@ class App extends Component {
         * Lat
         * Long
         * Searchbox
-
-    Hm, is this the best way to be passing this information? 
-  */
+    */
     getYelpData = async () => {
         if (!this.state.loading) {
             const response = await axios.get(
@@ -67,7 +65,7 @@ class App extends Component {
     The Map component must be provided an object that contains the center coordinates for the map.
     This function packages loosely held state into a clean predictable data structure.
     { lat: Number, lng: Number }
-  */
+    */
     returnCenter = () => {
         const lat = this.state.mapLat;
         const long = this.state.mapLong;
