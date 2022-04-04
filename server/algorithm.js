@@ -26,7 +26,7 @@ module.exports = async function algorithm(businesses, userLocation) {
 
     async function queryGlutenFree(userLocation, distance) {
         let glutenFree = await getAllGF();
-        for(let i = 0; i < glutenFree.length; i++) {
+        for (let i = 0; i < glutenFree.length; i++) {
             let thisDistance = distance(glutenFree[i].coordinates, userLocation);
             glutenFree[i]["distance"] = thisDistance;
         }
@@ -37,47 +37,47 @@ module.exports = async function algorithm(businesses, userLocation) {
     }
 
     function score(business) {
-        for(let i = 0; i < business.categories.length; i++) {
-            if(business["categories"][i].title === oneCategories[0] || business["categories"][i].title === oneCategories[1]) {
+        for (let i = 0; i < business.categories.length; i++) {
+            if (business["categories"][i].title === oneCategories[0] || business["categories"][i].title === oneCategories[1]) {
                 return 2;
-            } else if(business["categories"][i].title === zeroCategories[0] || business["categories"][i].title === zeroCategories[1]) {
+            } else if (business["categories"][i].title === zeroCategories[0] || business["categories"][i].title === zeroCategories[1]) {
                 return 0;
-            } else if(business["categories"][i].title === "Gluten-Free") {
+            } else if (business["categories"][i].title === "Gluten-Free") {
                 return 3;
             }
         }
         return 1;
     }
 
-    for(let i = 0; i < businesses.length; i++) {
+    for (let i = 0; i < businesses.length; i++) {
         businesses[i]["score"] = score(businesses[i]);
     }
 
     const returnMe = [...await queryGlutenFree(userLocation, distance)];
-    for(let i = 0; i < returnMe.length; i++){
+    for (let i = 0; i < returnMe.length; i++){
         returnMe[i]["score"] = 10;
     }
 
-    for(let i = 0; i < businesses.length; i++) {
-        if(businesses[i].score === 3) {
+    for (let i = 0; i < businesses.length; i++) {
+        if (businesses[i].score === 3) {
             returnMe.push(businesses[i]);
         }
     }
 
-    for(let i = 0; i < businesses.length; i++) {
-        if(businesses[i].score === 2) {
+    for (let i = 0; i < businesses.length; i++) {
+        if (businesses[i].score === 2) {
             returnMe.push(businesses[i]);
         }
     }
 
-    for(let i = 0; i < businesses.length; i++) {
-        if(businesses[i].score === 1) {
+    for (let i = 0; i < businesses.length; i++) {
+        if (businesses[i].score === 1) {
             returnMe.push(businesses[i]);
         }
     }
 
-    for(let i = 0; i < businesses.length; i++) {
-        if(businesses[i].score === 0) {
+    for (let i = 0; i < businesses.length; i++) {
+        if (businesses[i].score === 0) {
             returnMe.push(businesses[i]);
         }
     }
