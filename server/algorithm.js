@@ -6,7 +6,6 @@ const getAllGF = require('./getAllGF');
  */
 
 module.exports = async function algorithm(businesses, userLocation) {
-    const start = Date.now();
     let counter = 0;
     const oneCategories = ["Mexican", "Indian"];
     const zeroCategories = ["Italian", "Pizza"];
@@ -49,19 +48,16 @@ module.exports = async function algorithm(businesses, userLocation) {
         }
         return 1;
     }
-    // Loop through the businesses
+
     for(let i = 0; i < businesses.length; i++) {
         businesses[i]["score"] = score(businesses[i]);
     }
-    // Now you have the 20 restaurants that you want to show
 
-    // Ranking time
-    // I will create a new array that will be returned
     const returnMe = [...await queryGlutenFree(userLocation, distance)];
     for(let i = 0; i < returnMe.length; i++){
         returnMe[i]["score"] = 10;
     }
-    // I will do a linear scan through the array
+
     for(let i = 0; i < businesses.length; i++) {
         if(businesses[i].score === 3) {
             returnMe.push(businesses[i]);
@@ -86,8 +82,6 @@ module.exports = async function algorithm(businesses, userLocation) {
         }
     }
 
-    // return the returnMe array
-    const end = Date.now();
     returnMe.splice(10, 20);
     return returnMe;
 }
